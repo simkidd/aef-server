@@ -1,0 +1,135 @@
+import { PERMISSIONS, PermissionCode, SCOPES, ScopeType } from './permissions.js';
+import { UserRoleType } from './enums.js';
+
+export interface DefaultRoleConfig {
+  name: string;
+  code: string;
+  description: string;
+  defaultScope: ScopeType;
+  permissions: PermissionCode[];
+  isSystem: boolean;
+}
+
+export const DEFAULT_ROLES: Record<string, DefaultRoleConfig> = {
+  SUPER_ADMIN: {
+    name: 'Super Administrator',
+    code: 'SUPER_ADMIN',
+    description: 'Unrestricted enterprise platform administration',
+    defaultScope: SCOPES.GLOBAL,
+    permissions: Object.values(PERMISSIONS),
+    isSystem: true,
+  },
+  CENTRE_MANAGER: {
+    name: 'Centre Manager',
+    code: 'CENTRE_MANAGER',
+    description: 'Manages specific training centre operations, rooms, devices, cohorts and trainees',
+    defaultScope: SCOPES.CENTRE,
+    permissions: [
+      PERMISSIONS.ORG_VIEW,
+      PERMISSIONS.CENTRES_MANAGE,
+      PERMISSIONS.FACILITIES_MANAGE,
+      PERMISSIONS.ASSETS_MANAGE,
+      PERMISSIONS.DOCUMENTS_MANAGE,
+      PERMISSIONS.PROGRAMS_VIEW,
+      PERMISSIONS.COHORTS_VIEW,
+      PERMISSIONS.COHORTS_MANAGE,
+      PERMISSIONS.TIMETABLE_MANAGE,
+      PERMISSIONS.CALENDAR_MANAGE,
+      PERMISSIONS.APPLICANTS_VIEW,
+      PERMISSIONS.ENROLLMENT_MANAGE,
+      PERMISSIONS.BENEFICIARIES_VIEW,
+      PERMISSIONS.BIOMETRICS_VIEW,
+      PERMISSIONS.BIOMETRICS_REGISTER,
+      PERMISSIONS.DEVICES_MANAGE,
+      PERMISSIONS.ATTENDANCE_VIEW,
+      PERMISSIONS.ATTENDANCE_EDIT,
+      PERMISSIONS.ASSESSMENTS_MANAGE,
+      PERMISSIONS.RESULTS_ENTER,
+      PERMISSIONS.REPORTS_VIEW,
+      PERMISSIONS.ANNOUNCEMENTS_MANAGE,
+    ],
+    isSystem: true,
+  },
+  PROGRAM_MANAGER: {
+    name: 'Program Manager',
+    code: 'PROGRAM_MANAGER',
+    description: 'Manages specific empowerment programs, curriculums, cohorts, and applications across centres',
+    defaultScope: SCOPES.PROGRAM,
+    permissions: [
+      PERMISSIONS.PROGRAMS_VIEW,
+      PERMISSIONS.PROGRAMS_MANAGE,
+      PERMISSIONS.SKILLS_MANAGE,
+      PERMISSIONS.COHORTS_VIEW,
+      PERMISSIONS.COHORTS_MANAGE,
+      PERMISSIONS.TIMETABLE_MANAGE,
+      PERMISSIONS.CALENDAR_MANAGE,
+      PERMISSIONS.APPLICANTS_VIEW,
+      PERMISSIONS.APPLICANTS_REVIEW,
+      PERMISSIONS.ENROLLMENT_MANAGE,
+      PERMISSIONS.BENEFICIARIES_VIEW,
+      PERMISSIONS.ATTENDANCE_VIEW,
+      PERMISSIONS.ASSESSMENTS_MANAGE,
+      PERMISSIONS.RESULTS_ENTER,
+      PERMISSIONS.CERTIFICATES_ISSUE,
+      PERMISSIONS.REPORTS_VIEW,
+      PERMISSIONS.REPORTS_EXPORT,
+      PERMISSIONS.ANNOUNCEMENTS_MANAGE,
+    ],
+    isSystem: true,
+  },
+  TRAINER: {
+    name: 'Trainer / Instructor',
+    code: 'TRAINER',
+    description: 'Assigned instructor delivering specific skill sessions, viewing attendance & scoring assessments',
+    defaultScope: SCOPES.PROGRAM,
+    permissions: [
+      PERMISSIONS.COHORTS_VIEW,
+      PERMISSIONS.BENEFICIARIES_VIEW,
+      PERMISSIONS.ATTENDANCE_VIEW,
+      PERMISSIONS.ASSESSMENTS_MANAGE,
+      PERMISSIONS.RESULTS_ENTER,
+      PERMISSIONS.ANNOUNCEMENTS_MANAGE,
+    ],
+    isSystem: true,
+  },
+  HR_OFFICER: {
+    name: 'HR Officer',
+    code: 'HR_OFFICER',
+    description: 'Manages staff profiles, employment records, volunteers, and departments',
+    defaultScope: SCOPES.GLOBAL,
+    permissions: [
+      PERMISSIONS.ORG_VIEW,
+      PERMISSIONS.STAFF_VIEW,
+      PERMISSIONS.STAFF_MANAGE,
+      PERMISSIONS.STAFF_SENSITIVE_VIEW,
+      PERMISSIONS.VOLUNTEERS_MANAGE,
+      PERMISSIONS.PARTNERS_MANAGE,
+      PERMISSIONS.DOCUMENTS_MANAGE,
+      PERMISSIONS.REPORTS_VIEW,
+    ],
+    isSystem: true,
+  },
+  REGISTRATION_OFFICER: {
+    name: 'Biometric & Registration Officer',
+    code: 'REGISTRATION_OFFICER',
+    description: 'Handles in-person physical verification and biometric enrollment at centres',
+    defaultScope: SCOPES.CENTRE,
+    permissions: [
+      PERMISSIONS.APPLICANTS_VIEW,
+      PERMISSIONS.ENROLLMENT_MANAGE,
+      PERMISSIONS.BENEFICIARIES_VIEW,
+      PERMISSIONS.BIOMETRICS_VIEW,
+      PERMISSIONS.BIOMETRICS_REGISTER,
+      PERMISSIONS.ATTENDANCE_VIEW,
+    ],
+    isSystem: true,
+  },
+  BENEFICIARY: {
+    name: 'Beneficiary',
+    code: 'BENEFICIARY',
+    description: 'Applicant, trainee, graduate or alumni accessing the Beneficiary Portal',
+    defaultScope: SCOPES.GLOBAL,
+    permissions: [],
+    isSystem: true,
+  },
+};

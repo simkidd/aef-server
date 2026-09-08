@@ -1,0 +1,16 @@
+export * from './auth.swagger.js';
+export * from './staff.swagger.js';
+export * from './centre.swagger.js';
+export * from './program.swagger.js';
+export * from './cohort.swagger.js';
+export * from './application.swagger.js';
+export * from './enrollment.swagger.js';
+export * from './biometric.swagger.js';
+export * from './attendance.swagger.js';
+export * from './assessment.swagger.js';
+export * from './certificate.swagger.js';
+export * from './announcement.swagger.js';
+export * from './report.swagger.js';
+export * from './org.swagger.js';
+export * from './admin.swagger.js';
+export declare const swaggerRoutesPaths: Record<string, any>;
