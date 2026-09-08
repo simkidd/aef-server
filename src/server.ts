@@ -10,14 +10,16 @@ const startServer = async () => {
     // 1. Connect Database
     await connectDB();
 
-    // 2. Check if admin exists; if completely empty, run initial seed
-    const userCount = await User.countDocuments();
-    if (userCount === 0) {
-      console.log(
-        "[Bootstrap] Database is empty. Running initial system seed...",
-      );
-      await seedDatabase();
-    }
+    // 2. Auto-seed only in development when DB is completely empty
+    // if (!ENV.IS_PROD) {
+    //   const userCount = await User.countDocuments();
+    //   if (userCount === 0) {
+    //     console.log(
+    //       "[Bootstrap] Database is empty. Running initial system seed...",
+    //     );
+    //     await seedDatabase();
+    //   }
+    // }
 
     // 3. Start HTTP Server
     const server = app.listen(ENV.PORT, () => {

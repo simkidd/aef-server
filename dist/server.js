@@ -6,19 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_js_1 = __importDefault(require("./app.js"));
 const db_js_1 = require("./config/db.js");
 const env_js_1 = require("./config/env.js");
-const user_model_js_1 = require("./models/user.model.js");
-const seed_js_1 = require("./seeds/seed.js");
 const logger_js_1 = require("./utils/logger.js");
 const startServer = async () => {
     try {
         // 1. Connect Database
         await (0, db_js_1.connectDB)();
-        // 2. Check if admin exists; if completely empty, run initial seed
-        const userCount = await user_model_js_1.User.countDocuments();
-        if (userCount === 0) {
-            console.log("[Bootstrap] Database is empty. Running initial system seed...");
-            await (0, seed_js_1.seedDatabase)();
-        }
+        // 2. Auto-seed only in development when DB is completely empty
+        // if (!ENV.IS_PROD) {
+        //   const userCount = await User.countDocuments();
+        //   if (userCount === 0) {
+        //     console.log(
+        //       "[Bootstrap] Database is empty. Running initial system seed...",
+        //     );
+        //     await seedDatabase();
+        //   }
+        // }
         // 3. Start HTTP Server
         const server = app_js_1.default.listen(env_js_1.ENV.PORT, () => {
             console.log(`=======================================================`);
