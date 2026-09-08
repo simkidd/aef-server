@@ -1,5 +1,5 @@
 export declare const orgSwaggerPaths: {
-    '/org': {
+    '/org/info': {
         get: {
             tags: string[];
             summary: string;

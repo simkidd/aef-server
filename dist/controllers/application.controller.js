@@ -60,9 +60,13 @@ class ApplicationController {
             req.user.beneficiaryProfileId = profile._id.toString();
         }
         const applications = await application_model_js_1.Application.find({ beneficiaryId: req.user.beneficiaryProfileId })
-            .populate('programId')
-            .populate('preferredSkillAreaId')
-            .populate('preferredCentreId')
+            .populate({
+            path: 'beneficiaryId',
+            select: 'firstName lastName highestEducation phone beneficiaryCode',
+        })
+            .populate('programId', 'title code organizerName organizerType')
+            .populate('preferredSkillAreaId', 'name code category')
+            .populate('preferredCentreId', 'name centreCode address state lga')
             .sort({ submittedAt: -1 });
         (0, index_js_1.sendSuccess)(res, applications);
     });

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orgSwaggerPaths = void 0;
 exports.orgSwaggerPaths = {
-    '/org': {
+    '/org/info': {
         get: {
             tags: ['Organization & Staff'],
             summary: 'Get Foundation Information',

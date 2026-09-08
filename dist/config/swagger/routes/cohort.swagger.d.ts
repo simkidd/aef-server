@@ -71,7 +71,73 @@ export declare const cohortSwaggerPaths: {
             };
         };
     };
-    '/cohorts/sessions/all': {
+    '/cohorts/{id}/timetable/draft': {
+        post: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            parameters: {
+                name: string;
+                in: string;
+                required: boolean;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/cohorts/{id}/timetable/publish': {
+        post: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            parameters: {
+                name: string;
+                in: string;
+                required: boolean;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/cohorts/{id}/timetable/unpublish': {
+        post: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            parameters: {
+                name: string;
+                in: string;
+                required: boolean;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/cohorts/timetable': {
         get: {
             tags: string[];
             summary: string;
@@ -97,8 +163,26 @@ export declare const cohortSwaggerPaths: {
             };
         };
     };
-    '/cohorts/sessions/{id}/cancel': {
-        put: {
+    '/cohorts/schedule/sessions': {
+        get: {
+            tags: string[];
+            summary: string;
+            parameters: {
+                name: string;
+                in: string;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/cohorts/schedule/sessions/{id}/cancel': {
+        post: {
             tags: string[];
             summary: string;
             security: {
@@ -119,7 +203,7 @@ export declare const cohortSwaggerPaths: {
             };
         };
     };
-    '/cohorts/calendar/all': {
+    '/cohorts/calendar/events': {
         get: {
             tags: string[];
             summary: string;
@@ -129,8 +213,6 @@ export declare const cohortSwaggerPaths: {
                 };
             };
         };
-    };
-    '/cohorts/calendar': {
         post: {
             tags: string[];
             summary: string;

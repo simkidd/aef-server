@@ -15,6 +15,8 @@ export const applicationSwaggerPaths = {
       ],
       responses: { 200: { description: 'Paginated applications list' } },
     },
+  },
+  '/applications/apply': {
     post: {
       tags: ['Applications'],
       summary: 'Submit Beneficiary Application (Portal)',
@@ -37,13 +39,16 @@ export const applicationSwaggerPaths = {
           },
         },
       },
-      responses: { 201: { description: 'Application submitted' }, 409: { description: 'Active application already exists' } },
+      responses: {
+        201: { description: 'Application submitted' },
+        409: { description: 'Active application already exists' },
+      },
     },
   },
   '/applications/my': {
     get: {
       tags: ['Applications'],
-      summary: 'List Current Beneficiary Applications',
+      summary: 'List Current Beneficiary Applications (Portal)',
       security: [{ BearerAuth: [] }],
       responses: { 200: { description: 'My applications' } },
     },

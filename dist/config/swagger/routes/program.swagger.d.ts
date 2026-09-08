@@ -1,5 +1,5 @@
 export declare const programSwaggerPaths: {
-    '/programs/skills': {
+    '/programs/skills/all': {
         get: {
             tags: string[];
             summary: string;
@@ -9,6 +9,8 @@ export declare const programSwaggerPaths: {
                 };
             };
         };
+    };
+    '/programs/skills': {
         post: {
             tags: string[];
             summary: string;
@@ -44,10 +46,75 @@ export declare const programSwaggerPaths: {
             };
         };
     };
+    '/programs/published': {
+        get: {
+            tags: string[];
+            summary: string;
+            parameters: {
+                name: string;
+                in: string;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/programs/published/{id}': {
+        get: {
+            tags: string[];
+            summary: string;
+            parameters: {
+                name: string;
+                in: string;
+                required: boolean;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/programs/featured': {
+        get: {
+            tags: string[];
+            summary: string;
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/programs/stats': {
+        get: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
     '/programs': {
         get: {
             tags: string[];
             summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
             parameters: {
                 name: string;
                 in: string;
@@ -78,6 +145,9 @@ export declare const programSwaggerPaths: {
         get: {
             tags: string[];
             summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
             parameters: {
                 name: string;
                 in: string;
@@ -93,6 +163,26 @@ export declare const programSwaggerPaths: {
             };
         };
         put: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            parameters: {
+                name: string;
+                in: string;
+                required: boolean;
+                schema: {
+                    type: string;
+                };
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+        delete: {
             tags: string[];
             summary: string;
             security: {

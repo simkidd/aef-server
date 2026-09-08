@@ -176,5 +176,70 @@ exports.authSwaggerPaths = {
             },
         },
     },
+    '/auth/profile': {
+        put: {
+            tags: ['Auth'],
+            summary: 'Update Current User Contact & Profile',
+            description: 'Updates editable contact fields (phone, alternatePhone, address, stateOfResidence, lgaOfResidence, emergencyContact).',
+            security: [{ BearerAuth: [] }],
+            requestBody: {
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                phone: { type: 'string' },
+                                alternatePhone: { type: 'string' },
+                                address: { type: 'string' },
+                                stateOfResidence: { type: 'string' },
+                                lgaOfResidence: { type: 'string' },
+                                emergencyContact: {
+                                    type: 'object',
+                                    properties: {
+                                        name: { type: 'string' },
+                                        relationship: { type: 'string' },
+                                        phone: { type: 'string' },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            responses: {
+                200: { description: 'Profile updated successfully' },
+                401: { description: 'Unauthorized' },
+            },
+        },
+    },
+    '/auth/change-password': {
+        put: {
+            tags: ['Auth'],
+            summary: 'Change User Password',
+            description: 'Validates currentPassword and updates to newPassword with bcrypt hashing.',
+            security: [{ BearerAuth: [] }],
+            requestBody: {
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            required: ['currentPassword', 'newPassword'],
+                            properties: {
+                                currentPassword: { type: 'string' },
+                                newPassword: { type: 'string', minLength: 8 },
+                            },
+                        },
+                    },
+                },
+            },
+            responses: {
+                200: { description: 'Password changed successfully' },
+                400: { description: 'Incorrect current password or validation error' },
+                401: { description: 'Unauthorized' },
+            },
+        },
+    },
 };
 //# sourceMappingURL=auth.swagger.js.map

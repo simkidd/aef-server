@@ -1,5 +1,5 @@
 export const orgSwaggerPaths = {
-  '/org': {
+  '/org/info': {
     get: {
       tags: ['Organization & Staff'],
       summary: 'Get Foundation Information',

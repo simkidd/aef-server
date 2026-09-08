@@ -35,7 +35,34 @@ exports.cohortSwaggerPaths = {
             responses: { 200: { description: 'Cohort updated' } },
         },
     },
-    '/cohorts/sessions/all': {
+    '/cohorts/{id}/timetable/draft': {
+        post: {
+            tags: ['Cohorts & Schedule'],
+            summary: 'Save Timetable Multi-Slot Draft',
+            security: [{ BearerAuth: [] }],
+            parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+            responses: { 200: { description: 'Timetable draft saved' } },
+        },
+    },
+    '/cohorts/{id}/timetable/publish': {
+        post: {
+            tags: ['Cohorts & Schedule'],
+            summary: 'Publish Cohort Timetable',
+            security: [{ BearerAuth: [] }],
+            parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+            responses: { 200: { description: 'Timetable published' } },
+        },
+    },
+    '/cohorts/{id}/timetable/unpublish': {
+        post: {
+            tags: ['Cohorts & Schedule'],
+            summary: 'Unpublish Cohort Timetable',
+            security: [{ BearerAuth: [] }],
+            parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+            responses: { 200: { description: 'Timetable reverted to draft' } },
+        },
+    },
+    '/cohorts/timetable': {
         get: {
             tags: ['Cohorts & Schedule'],
             summary: 'List Timetable Training Sessions',
@@ -49,8 +76,20 @@ exports.cohortSwaggerPaths = {
             responses: { 200: { description: 'Scheduled practical sessions' } },
         },
     },
-    '/cohorts/sessions/{id}/cancel': {
-        put: {
+    '/cohorts/schedule/sessions': {
+        get: {
+            tags: ['Cohorts & Schedule'],
+            summary: 'List Scheduled Sessions (Alias)',
+            parameters: [
+                { name: 'cohortId', in: 'query', schema: { type: 'string' } },
+                { name: 'centreId', in: 'query', schema: { type: 'string' } },
+                { name: 'skillAreaId', in: 'query', schema: { type: 'string' } },
+            ],
+            responses: { 200: { description: 'Scheduled practical sessions' } },
+        },
+    },
+    '/cohorts/schedule/sessions/{id}/cancel': {
+        post: {
             tags: ['Cohorts & Schedule'],
             summary: 'Cancel Timetable Session (No penalty on trainee attendance rate)',
             security: [{ BearerAuth: [] }],
@@ -58,14 +97,12 @@ exports.cohortSwaggerPaths = {
             responses: { 200: { description: 'Session cancelled' } },
         },
     },
-    '/cohorts/calendar/all': {
+    '/cohorts/calendar/events': {
         get: {
             tags: ['Cohorts & Schedule'],
-            summary: 'List Calendar Exceptions (Holidays, Closures)',
+            summary: 'List Calendar Exceptions & Holidays',
             responses: { 200: { description: 'Calendar events' } },
         },
-    },
-    '/cohorts/calendar': {
         post: {
             tags: ['Cohorts & Schedule'],
             summary: 'Create Calendar Holiday / Exception',

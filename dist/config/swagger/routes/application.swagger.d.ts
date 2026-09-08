@@ -27,6 +27,8 @@ export declare const applicationSwaggerPaths: {
                 };
             };
         };
+    };
+    '/applications/apply': {
         post: {
             tags: string[];
             summary: string;

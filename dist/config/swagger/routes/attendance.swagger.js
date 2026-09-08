@@ -21,6 +21,8 @@ exports.attendanceSwaggerPaths = {
                 { name: 'cohortId', in: 'query', schema: { type: 'string' } },
                 { name: 'skillAreaId', in: 'query', schema: { type: 'string' } },
                 { name: 'date', in: 'query', schema: { type: 'string', format: 'date' } },
+                { name: 'year', in: 'query', schema: { type: 'integer', example: 2026 } },
+                { name: 'month', in: 'query', schema: { type: 'integer', example: 9 } },
                 { name: 'status', in: 'query', schema: { type: 'string' } },
                 { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
                 { name: 'limit', in: 'query', schema: { type: 'integer', default: 50 } },
@@ -32,6 +34,14 @@ exports.attendanceSwaggerPaths = {
         get: {
             tags: ['Attendance'],
             summary: 'Beneficiary Personal Attendance History (Portal)',
+            security: [{ BearerAuth: [] }],
+            responses: { 200: { description: 'Personal attendance records and rate' } },
+        },
+    },
+    '/attendance/my': {
+        get: {
+            tags: ['Attendance'],
+            summary: 'Beneficiary Personal Attendance History Alias (Portal)',
             security: [{ BearerAuth: [] }],
             responses: { 200: { description: 'Personal attendance records and rate' } },
         },

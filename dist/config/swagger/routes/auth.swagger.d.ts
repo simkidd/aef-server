@@ -258,4 +258,104 @@ export declare const authSwaggerPaths: {
             };
         };
     };
+    '/auth/profile': {
+        put: {
+            tags: string[];
+            summary: string;
+            description: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            requestBody: {
+                required: boolean;
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: string;
+                            properties: {
+                                phone: {
+                                    type: string;
+                                };
+                                alternatePhone: {
+                                    type: string;
+                                };
+                                address: {
+                                    type: string;
+                                };
+                                stateOfResidence: {
+                                    type: string;
+                                };
+                                lgaOfResidence: {
+                                    type: string;
+                                };
+                                emergencyContact: {
+                                    type: string;
+                                    properties: {
+                                        name: {
+                                            type: string;
+                                        };
+                                        relationship: {
+                                            type: string;
+                                        };
+                                        phone: {
+                                            type: string;
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+            responses: {
+                200: {
+                    description: string;
+                };
+                401: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/auth/change-password': {
+        put: {
+            tags: string[];
+            summary: string;
+            description: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            requestBody: {
+                required: boolean;
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: string;
+                            required: string[];
+                            properties: {
+                                currentPassword: {
+                                    type: string;
+                                };
+                                newPassword: {
+                                    type: string;
+                                    minLength: number;
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+            responses: {
+                200: {
+                    description: string;
+                };
+                400: {
+                    description: string;
+                };
+                401: {
+                    description: string;
+                };
+            };
+        };
+    };
 };

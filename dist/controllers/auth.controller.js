@@ -366,6 +366,83 @@ class AuthController {
         }
         return (0, index_js_1.sendSuccess)(res, { verified: true, email: normalizedEmail, purpose }, "Verification code successfully validated");
     });
+    /**
+     * [ADMIN + PORTAL] Update authenticated user profile details
+     */
+    static updateProfile = (0, index_js_1.asyncHandler)(async (req, res) => {
+        if (!req.user) {
+            throw new index_js_1.AppError("Unauthorized", 401);
+        }
+        const { phone, alternatePhone, address, stateOfResidence, lgaOfResidence, emergencyContact, profilePhotoUrl, avatarUrl, } = req.body;
+        const user = await user_model_js_1.User.findById(req.user.userId);
+        if (!user) {
+            throw new index_js_1.AppError("User not found", 404);
+        }
+        if (phone !== undefined)
+            user.phone = phone;
+        if (avatarUrl !== undefined)
+            user.avatarUrl = avatarUrl;
+        await user.save();
+        let beneficiaryProfile = null;
+        if (user.beneficiaryProfileId) {
+            beneficiaryProfile = await beneficiaryProfile_model_js_1.BeneficiaryProfile.findById(user.beneficiaryProfileId);
+            if (beneficiaryProfile) {
+                if (phone !== undefined)
+                    beneficiaryProfile.phone = phone;
+                if (alternatePhone !== undefined)
+                    beneficiaryProfile.alternatePhone = alternatePhone;
+                if (address !== undefined)
+                    beneficiaryProfile.address = address;
+                if (stateOfResidence !== undefined)
+                    beneficiaryProfile.stateOfResidence = stateOfResidence;
+                if (lgaOfResidence !== undefined)
+                    beneficiaryProfile.lgaOfResidence = lgaOfResidence;
+                if (emergencyContact !== undefined)
+                    beneficiaryProfile.emergencyContact = emergencyContact;
+                if (profilePhotoUrl !== undefined)
+                    beneficiaryProfile.profilePhotoUrl = profilePhotoUrl;
+                await beneficiaryProfile.save();
+            }
+        }
+        return (0, index_js_1.sendSuccess)(res, {
+            user: {
+                id: user._id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                avatarUrl: user.avatarUrl,
+                beneficiaryProfile,
+            },
+        }, "Profile updated successfully");
+    });
+    /**
+     * [ADMIN + PORTAL] Change password for authenticated user
+     */
+    static changePassword = (0, index_js_1.asyncHandler)(async (req, res) => {
+        if (!req.user) {
+            throw new index_js_1.AppError("Unauthorized", 401);
+        }
+        const { currentPassword, newPassword } = req.body;
+        if (!currentPassword || !newPassword) {
+            throw new index_js_1.AppError("Both current and new passwords are required.", 400);
+        }
+        if (newPassword.length < 8) {
+            throw new index_js_1.AppError("New password must be at least 8 characters long.", 400);
+        }
+        const auth = await auth_model_js_1.Auth.findOne({ userId: req.user.userId }).select("+password");
+        if (!auth) {
+            throw new index_js_1.AppError("Authentication record not found.", 404);
+        }
+        const isMatch = await auth.comparePassword(currentPassword);
+        if (!isMatch) {
+            throw new index_js_1.AppError("Current password is incorrect.", 400);
+        }
+        auth.password = newPassword;
+        auth.lastPasswordChangeAt = new Date();
+        await auth.save();
+        return (0, index_js_1.sendSuccess)(res, null, "Password changed successfully");
+    });
 }
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controller.js.map

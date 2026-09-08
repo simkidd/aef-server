@@ -33,6 +33,7 @@ export declare const attendanceSwaggerPaths: {
                 schema: {
                     type: string;
                     format?: undefined;
+                    example?: undefined;
                     default?: undefined;
                 };
             } | {
@@ -41,6 +42,16 @@ export declare const attendanceSwaggerPaths: {
                 schema: {
                     type: string;
                     format: string;
+                    example?: undefined;
+                    default?: undefined;
+                };
+            } | {
+                name: string;
+                in: string;
+                schema: {
+                    type: string;
+                    example: number;
+                    format?: undefined;
                     default?: undefined;
                 };
             } | {
@@ -50,6 +61,7 @@ export declare const attendanceSwaggerPaths: {
                     type: string;
                     default: number;
                     format?: undefined;
+                    example?: undefined;
                 };
             })[];
             responses: {
@@ -60,6 +72,20 @@ export declare const attendanceSwaggerPaths: {
         };
     };
     '/attendance/my-history': {
+        get: {
+            tags: string[];
+            summary: string;
+            security: {
+                BearerAuth: never[];
+            }[];
+            responses: {
+                200: {
+                    description: string;
+                };
+            };
+        };
+    };
+    '/attendance/my': {
         get: {
             tags: string[];
             summary: string;
