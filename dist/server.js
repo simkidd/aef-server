@@ -23,10 +23,10 @@ const startServer = async () => {
         const server = app_js_1.default.listen(env_js_1.ENV.PORT, () => {
             console.log(`=======================================================`);
             console.log(` Adele Empowerment Foundation Management & Training OS `);
-            console.log(` Server active on: http://localhost:${env_js_1.ENV.PORT} `);
+            console.log(` Server running on port: ${env_js_1.ENV.PORT} `);
             console.log(` Environment:     ${env_js_1.ENV.NODE_ENV} `);
-            console.log(` Health Check:    http://localhost:${env_js_1.ENV.PORT}/health `);
-            console.log(` API Base:        http://localhost:${env_js_1.ENV.PORT}${env_js_1.ENV.API_PREFIX} `);
+            console.log(` Health Check:    /health `);
+            console.log(` API Documentation: /api-docs `);
             console.log(`=======================================================`);
         });
         const shutdown = () => {
