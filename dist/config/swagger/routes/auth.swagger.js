@@ -39,7 +39,7 @@ exports.authSwaggerPaths = {
                     'application/json': {
                         schema: {
                             type: 'object',
-                            required: ['email', 'password', 'firstName', 'lastName', 'gender', 'dateOfBirth', 'phone', 'address', 'stateOfOrigin', 'lgaOfOrigin'],
+                            required: ['email', 'password', 'firstName', 'lastName', 'gender', 'phone'],
                             properties: {
                                 email: { type: 'string', format: 'email' },
                                 password: { type: 'string' },

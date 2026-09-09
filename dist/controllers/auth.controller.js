@@ -68,7 +68,10 @@ class AuthController {
         }, "Login successful");
     });
     static registerBeneficiary = (0, index_js_1.asyncHandler)(async (req, res) => {
-        const { email, password, firstName, lastName, middleName, gender, dateOfBirth, phone, alternatePhone, address, stateOfOrigin, lgaOfOrigin, stateOfResidence, lgaOfResidence, highestEducation, employmentStatus, identificationType, identificationNumber, emergencyContact, } = req.body;
+        const { email, password, firstName, lastName, phone, gender, middleName, } = req.body;
+        if (!email || !password || !firstName || !lastName || !phone || !gender) {
+            throw new index_js_1.AppError("First name, last name, email, phone, gender, and password are required.", 400);
+        }
         const existingUser = await user_model_js_1.User.findOne({ email: email.toLowerCase() });
         if (existingUser) {
             throw new index_js_1.AppError("An account with this email already exists.", 409);
@@ -93,7 +96,7 @@ class AuthController {
             email: user.email,
             password,
         });
-        // 3. Create Beneficiary Profile
+        // 3. Create Initial Beneficiary Profile
         const profile = await beneficiaryProfile_model_js_1.BeneficiaryProfile.create({
             userId: user._id,
             beneficiaryCode,
@@ -101,20 +104,9 @@ class AuthController {
             lastName,
             middleName,
             gender,
-            dateOfBirth: new Date(dateOfBirth),
             phone,
-            alternatePhone,
             email: email.toLowerCase(),
-            address,
-            stateOfOrigin,
-            lgaOfOrigin,
-            stateOfResidence,
-            lgaOfResidence,
-            highestEducation,
-            employmentStatus,
-            identificationType,
-            identificationNumber,
-            emergencyContact: emergencyContact || {
+            emergencyContact: {
                 name: "N/A",
                 relationship: "N/A",
                 phone: phone,
@@ -373,11 +365,15 @@ class AuthController {
         if (!req.user) {
             throw new index_js_1.AppError("Unauthorized", 401);
         }
-        const { phone, alternatePhone, address, stateOfResidence, lgaOfResidence, emergencyContact, profilePhotoUrl, avatarUrl, } = req.body;
+        const { firstName, lastName, phone, alternatePhone, address, gender, dateOfBirth, stateOfOrigin, lgaOfOrigin, stateOfResidence, lgaOfResidence, highestEducation, employmentStatus, identificationType, identificationNumber, emergencyContact, profilePhotoUrl, avatarUrl, } = req.body;
         const user = await user_model_js_1.User.findById(req.user.userId);
         if (!user) {
             throw new index_js_1.AppError("User not found", 404);
         }
+        if (firstName !== undefined)
+            user.firstName = firstName;
+        if (lastName !== undefined)
+            user.lastName = lastName;
         if (phone !== undefined)
             user.phone = phone;
         if (avatarUrl !== undefined)
@@ -387,16 +383,36 @@ class AuthController {
         if (user.beneficiaryProfileId) {
             beneficiaryProfile = await beneficiaryProfile_model_js_1.BeneficiaryProfile.findById(user.beneficiaryProfileId);
             if (beneficiaryProfile) {
+                if (firstName !== undefined)
+                    beneficiaryProfile.firstName = firstName;
+                if (lastName !== undefined)
+                    beneficiaryProfile.lastName = lastName;
+                if (gender !== undefined)
+                    beneficiaryProfile.gender = gender;
+                if (dateOfBirth !== undefined)
+                    beneficiaryProfile.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : undefined;
                 if (phone !== undefined)
                     beneficiaryProfile.phone = phone;
                 if (alternatePhone !== undefined)
                     beneficiaryProfile.alternatePhone = alternatePhone;
                 if (address !== undefined)
                     beneficiaryProfile.address = address;
+                if (stateOfOrigin !== undefined)
+                    beneficiaryProfile.stateOfOrigin = stateOfOrigin;
+                if (lgaOfOrigin !== undefined)
+                    beneficiaryProfile.lgaOfOrigin = lgaOfOrigin;
                 if (stateOfResidence !== undefined)
                     beneficiaryProfile.stateOfResidence = stateOfResidence;
                 if (lgaOfResidence !== undefined)
                     beneficiaryProfile.lgaOfResidence = lgaOfResidence;
+                if (highestEducation !== undefined)
+                    beneficiaryProfile.highestEducation = highestEducation;
+                if (employmentStatus !== undefined)
+                    beneficiaryProfile.employmentStatus = employmentStatus;
+                if (identificationType !== undefined)
+                    beneficiaryProfile.identificationType = identificationType;
+                if (identificationNumber !== undefined)
+                    beneficiaryProfile.identificationNumber = identificationNumber;
                 if (emergencyContact !== undefined)
                     beneficiaryProfile.emergencyContact = emergencyContact;
                 if (profilePhotoUrl !== undefined)

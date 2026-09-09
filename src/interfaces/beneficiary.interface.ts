@@ -8,21 +8,21 @@ export interface IBeneficiaryProfile {
   lastName: string;
   middleName?: string;
   gender: 'Male' | 'Female' | 'Other';
-  dateOfBirth: Date;
+  dateOfBirth?: Date;
   phone: string;
   alternatePhone?: string;
   email: string;
-  address: string;
-  stateOfOrigin: string;
-  lgaOfOrigin: string;
-  stateOfResidence: string;
-  lgaOfResidence: string;
-  highestEducation: 'None' | 'Primary' | 'Secondary (SSCE/WAEC)' | 'OND/NCE' | 'HND/BSc' | 'Postgraduate' | 'Vocational Certificate';
-  employmentStatus: 'Unemployed' | 'Self-Employed' | 'Student' | 'Employed Part-Time' | 'Employed Full-Time';
+  address?: string;
+  stateOfOrigin?: string;
+  lgaOfOrigin?: string;
+  stateOfResidence?: string;
+  lgaOfResidence?: string;
+  highestEducation?: 'None' | 'Primary' | 'Secondary (SSCE/WAEC)' | 'OND/NCE' | 'HND/BSc' | 'Postgraduate' | 'Vocational Certificate';
+  employmentStatus?: 'Unemployed' | 'Self-Employed' | 'Student' | 'Employed Part-Time' | 'Employed Full-Time';
   disabilityStatus?: 'None' | 'Visual' | 'Hearing' | 'Mobility' | 'Other';
   identificationType?: 'National NIN' | "Voter's Card" | "Driver's License" | 'International Passport' | 'Birth Certificate';
   identificationNumber?: string;
-  emergencyContact: {
+  emergencyContact?: {
     name: string;
     relationship: string;
     phone: string;
