@@ -39,12 +39,34 @@ class AdminController {
             totalPages: result.pages,
         });
     });
+    static getUserStats = (0, index_js_1.asyncHandler)(async (_req, res) => {
+        const [totalUsers, staffUsers, beneficiaryUsers, activeUsers, inactiveUsers] = await Promise.all([
+            user_model_js_1.User.countDocuments(),
+            user_model_js_1.User.countDocuments({ isStaff: true }),
+            user_model_js_1.User.countDocuments({ isStaff: false }),
+            user_model_js_1.User.countDocuments({ isActive: { $ne: false } }),
+            user_model_js_1.User.countDocuments({ isActive: false }),
+        ]);
+        (0, index_js_1.sendSuccess)(res, {
+            totalUsers,
+            staffUsers,
+            beneficiaryUsers,
+            activeUsers,
+            inactiveUsers,
+        }, 'User statistics retrieved');
+    });
     static updateUserRolesAndScopes = (0, index_js_1.asyncHandler)(async (req, res) => {
         const { id } = req.params;
         const { roles, customPermissions, scopeAssignments, isActive } = req.body;
         const user = await user_model_js_1.User.findById(id);
         if (!user) {
             throw new index_js_1.AppError('User not found', 404);
+        }
+        const currentUserId = req.user?.userId;
+        if (currentUserId && currentUserId === user._id.toString()) {
+            if (isActive === false) {
+                throw new index_js_1.AppError('You cannot deactivate your own user account', 400);
+            }
         }
         const before = { roles: user.roles, scopeAssignments: user.scopeAssignments, isActive: user.isActive };
         if (roles)

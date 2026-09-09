@@ -13,6 +13,12 @@ router.get(
   requirePermission(PERMISSIONS.USERS_MANAGE),
   AdminController.getUsers,
 );
+router.get(
+  "/users/stats",
+  authenticate,
+  requirePermission(PERMISSIONS.USERS_MANAGE),
+  AdminController.getUserStats,
+);
 router.put(
   "/users/:id/roles-scopes",
   authenticate,

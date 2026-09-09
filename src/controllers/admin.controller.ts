@@ -40,6 +40,24 @@ export class AdminController {
     });
   });
 
+  public static getUserStats = asyncHandler(async (_req: Request, res: Response) => {
+    const [totalUsers, staffUsers, beneficiaryUsers, activeUsers, inactiveUsers] = await Promise.all([
+      User.countDocuments(),
+      User.countDocuments({ isStaff: true }),
+      User.countDocuments({ isStaff: false }),
+      User.countDocuments({ isActive: { $ne: false } }),
+      User.countDocuments({ isActive: false }),
+    ]);
+
+    sendSuccess(res, {
+      totalUsers,
+      staffUsers,
+      beneficiaryUsers,
+      activeUsers,
+      inactiveUsers,
+    }, 'User statistics retrieved');
+  });
+
   public static updateUserRolesAndScopes = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { id } = req.params;
     const { roles, customPermissions, scopeAssignments, isActive } = req.body;
@@ -47,6 +65,13 @@ export class AdminController {
     const user = await User.findById(id);
     if (!user) {
       throw new AppError('User not found', 404);
+    }
+
+    const currentUserId = req.user?.userId;
+    if (currentUserId && currentUserId === user._id.toString()) {
+      if (isActive === false) {
+        throw new AppError('You cannot deactivate your own user account', 400);
+      }
     }
 
     const before = { roles: user.roles, scopeAssignments: user.scopeAssignments, isActive: user.isActive };

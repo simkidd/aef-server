@@ -9,6 +9,7 @@ const permissions_js_1 = require("../constants/permissions.js");
 const router = (0, express_1.Router)();
 // Users & Account permissions
 router.get("/users", auth_middleware_js_1.authenticate, (0, rbac_middleware_js_1.requirePermission)(permissions_js_1.PERMISSIONS.USERS_MANAGE), admin_controller_js_1.AdminController.getUsers);
+router.get("/users/stats", auth_middleware_js_1.authenticate, (0, rbac_middleware_js_1.requirePermission)(permissions_js_1.PERMISSIONS.USERS_MANAGE), admin_controller_js_1.AdminController.getUserStats);
 router.put("/users/:id/roles-scopes", auth_middleware_js_1.authenticate, (0, rbac_middleware_js_1.requirePermission)(permissions_js_1.PERMISSIONS.ROLES_MANAGE), admin_controller_js_1.AdminController.updateUserRolesAndScopes);
 // Roles & Permissions matrix
 router.get("/roles", auth_middleware_js_1.authenticate, (0, rbac_middleware_js_1.requirePermission)(permissions_js_1.PERMISSIONS.ROLES_MANAGE), admin_controller_js_1.AdminController.getRoles);
