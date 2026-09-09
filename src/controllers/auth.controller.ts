@@ -103,22 +103,14 @@ export class AuthController {
         password,
         firstName,
         lastName,
-        middleName,
-        gender,
-        dateOfBirth,
         phone,
-        alternatePhone,
-        address,
-        stateOfOrigin,
-        lgaOfOrigin,
-        stateOfResidence,
-        lgaOfResidence,
-        highestEducation,
-        employmentStatus,
-        identificationType,
-        identificationNumber,
-        emergencyContact,
+        gender,
+        middleName,
       } = req.body;
+
+      if (!email || !password || !firstName || !lastName || !phone || !gender) {
+        throw new AppError("First name, last name, email, phone, gender, and password are required.", 400);
+      }
 
       const existingUser = await User.findOne({ email: email.toLowerCase() });
       if (existingUser) {
@@ -148,7 +140,7 @@ export class AuthController {
         password,
       });
 
-      // 3. Create Beneficiary Profile
+      // 3. Create Initial Beneficiary Profile
       const profile = await BeneficiaryProfile.create({
         userId: user._id,
         beneficiaryCode,
@@ -156,20 +148,9 @@ export class AuthController {
         lastName,
         middleName,
         gender,
-        dateOfBirth: new Date(dateOfBirth),
         phone,
-        alternatePhone,
         email: email.toLowerCase(),
-        address,
-        stateOfOrigin,
-        lgaOfOrigin,
-        stateOfResidence,
-        lgaOfResidence,
-        highestEducation,
-        employmentStatus,
-        identificationType,
-        identificationNumber,
-        emergencyContact: emergencyContact || {
+        emergencyContact: {
           name: "N/A",
           relationship: "N/A",
           phone: phone,
@@ -516,11 +497,21 @@ export class AuthController {
       }
 
       const {
+        firstName,
+        lastName,
         phone,
         alternatePhone,
         address,
+        gender,
+        dateOfBirth,
+        stateOfOrigin,
+        lgaOfOrigin,
         stateOfResidence,
         lgaOfResidence,
+        highestEducation,
+        employmentStatus,
+        identificationType,
+        identificationNumber,
         emergencyContact,
         profilePhotoUrl,
         avatarUrl,
@@ -531,6 +522,8 @@ export class AuthController {
         throw new AppError("User not found", 404);
       }
 
+      if (firstName !== undefined) user.firstName = firstName;
+      if (lastName !== undefined) user.lastName = lastName;
       if (phone !== undefined) user.phone = phone;
       if (avatarUrl !== undefined) user.avatarUrl = avatarUrl;
       await user.save();
@@ -541,14 +534,31 @@ export class AuthController {
           user.beneficiaryProfileId
         );
         if (beneficiaryProfile) {
+          if (firstName !== undefined) beneficiaryProfile.firstName = firstName;
+          if (lastName !== undefined) beneficiaryProfile.lastName = lastName;
+          if (gender !== undefined) beneficiaryProfile.gender = gender;
+          if (dateOfBirth !== undefined)
+            beneficiaryProfile.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : undefined;
           if (phone !== undefined) beneficiaryProfile.phone = phone;
           if (alternatePhone !== undefined)
             beneficiaryProfile.alternatePhone = alternatePhone;
           if (address !== undefined) beneficiaryProfile.address = address;
+          if (stateOfOrigin !== undefined)
+            beneficiaryProfile.stateOfOrigin = stateOfOrigin;
+          if (lgaOfOrigin !== undefined)
+            beneficiaryProfile.lgaOfOrigin = lgaOfOrigin;
           if (stateOfResidence !== undefined)
             beneficiaryProfile.stateOfResidence = stateOfResidence;
           if (lgaOfResidence !== undefined)
             beneficiaryProfile.lgaOfResidence = lgaOfResidence;
+          if (highestEducation !== undefined)
+            beneficiaryProfile.highestEducation = highestEducation;
+          if (employmentStatus !== undefined)
+            beneficiaryProfile.employmentStatus = employmentStatus;
+          if (identificationType !== undefined)
+            beneficiaryProfile.identificationType = identificationType;
+          if (identificationNumber !== undefined)
+            beneficiaryProfile.identificationNumber = identificationNumber;
           if (emergencyContact !== undefined)
             beneficiaryProfile.emergencyContact = emergencyContact;
           if (profilePhotoUrl !== undefined)
