@@ -80,6 +80,33 @@ class ApplicationController {
         if (!profile) {
             throw new index_js_1.AppError('Please complete your beneficiary profile before applying.', 400);
         }
+        // Enforce profile completeness — cannot be bypassed via direct API calls
+        const missingFields = [];
+        if (!profile.dateOfBirth)
+            missingFields.push('Date of birth');
+        if (!profile.address)
+            missingFields.push('Residential address');
+        if (!profile.highestEducation)
+            missingFields.push('Highest education');
+        if (!profile.employmentStatus)
+            missingFields.push('Employment status');
+        if (!profile.stateOfOrigin)
+            missingFields.push('State of origin');
+        if (!profile.lgaOfOrigin)
+            missingFields.push('LGA of origin');
+        if (!profile.stateOfResidence)
+            missingFields.push('State of residence');
+        if (!profile.lgaOfResidence)
+            missingFields.push('LGA of residence');
+        if (!profile.emergencyContact?.name)
+            missingFields.push('Emergency contact name');
+        if (!profile.emergencyContact?.phone)
+            missingFields.push('Emergency contact phone');
+        if (!profile.emergencyContact?.relationship)
+            missingFields.push('Emergency contact relationship');
+        if (missingFields.length > 0) {
+            throw new index_js_1.AppError(`Your profile is incomplete. Please fill in the following before applying: ${missingFields.join(', ')}.`, 400);
+        }
         // Check if already applied to this program
         const existing = await application_model_js_1.Application.findOne({
             beneficiaryId: profile._id,
