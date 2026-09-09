@@ -4,8 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.disconnectDB = exports.connectDB = void 0;
+const node_dns_1 = __importDefault(require("node:dns"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const env_1 = require("./env");
+// Ensure Node DNS resolver uses public DNS to prevent querySrv ECONNREFUSED on local routers/ISPs
+try {
+    node_dns_1.default.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4"]);
+}
+catch {
+    // Ignore in environments where setting DNS is restricted
+}
 const connectDB = async () => {
     try {
         const conn = await mongoose_1.default.connect(env_1.ENV.MONGO_URI, {
