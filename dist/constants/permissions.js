@@ -54,5 +54,6 @@ exports.PERMISSIONS = {
     AUDIT_VIEW: 'audit:view',
     SETTINGS_MANAGE: 'settings:manage',
     ANNOUNCEMENTS_MANAGE: 'announcements:manage',
+    GALLERY_MANAGE: 'gallery:manage',
 };
 //# sourceMappingURL=permissions.js.map

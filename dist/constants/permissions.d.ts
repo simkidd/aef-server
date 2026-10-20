@@ -46,5 +46,6 @@ export declare const PERMISSIONS: {
     readonly AUDIT_VIEW: "audit:view";
     readonly SETTINGS_MANAGE: "settings:manage";
     readonly ANNOUNCEMENTS_MANAGE: "announcements:manage";
+    readonly GALLERY_MANAGE: "gallery:manage";
 };
 export type PermissionCode = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];

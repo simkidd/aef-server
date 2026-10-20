@@ -14,4 +14,7 @@ export declare const ENV: {
     BREVO_API_KEY: string;
     BREVO_FROM_NAME: string;
     BREVO_FROM_EMAIL: string;
+    CLOUDINARY_CLOUD_NAME: string;
+    CLOUDINARY_API_KEY: string;
+    CLOUDINARY_API_SECRET: string;
 };

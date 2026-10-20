@@ -35,5 +35,8 @@ exports.ENV = {
     BREVO_API_KEY: process.env.BREVO_API_KEY || "",
     BREVO_FROM_NAME: process.env.BREVO_FROM_NAME || "Adele Empowerment Foundation",
     BREVO_FROM_EMAIL: process.env.BREVO_FROM_EMAIL || "notifications@adelefoundation.org",
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "",
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || "",
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || "",
 };
 //# sourceMappingURL=env.js.map

@@ -16,6 +16,7 @@ const certificate_routes_js_1 = require("./certificate.routes.js");
 const announcement_routes_js_1 = require("./announcement.routes.js");
 const report_routes_js_1 = require("./report.routes.js");
 const admin_routes_js_1 = require("./admin.routes.js");
+const gallery_routes_js_1 = require("./gallery.routes.js");
 const apiRouter = (0, express_1.Router)();
 exports.apiRouter = apiRouter;
 apiRouter.use('/auth', auth_routes_js_1.authRoutes);
@@ -32,4 +33,5 @@ apiRouter.use('/certificates', certificate_routes_js_1.certificateRoutes);
 apiRouter.use('/announcements', announcement_routes_js_1.announcementRoutes);
 apiRouter.use('/reports', report_routes_js_1.reportRoutes);
 apiRouter.use('/admin', admin_routes_js_1.adminRoutes);
+apiRouter.use('/gallery', gallery_routes_js_1.galleryRoutes);
 //# sourceMappingURL=index.js.map

@@ -23,4 +23,5 @@ __exportStar(require("./biometric.interface.js"), exports);
 __exportStar(require("./attendance.interface.js"), exports);
 __exportStar(require("./certificate.interface.js"), exports);
 __exportStar(require("./audit.interface.js"), exports);
+__exportStar(require("./gallery.interface.js"), exports);
 //# sourceMappingURL=index.js.map

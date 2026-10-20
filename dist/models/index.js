@@ -29,4 +29,5 @@ __exportStar(require("./biometric.model.js"), exports);
 __exportStar(require("./attendance.model.js"), exports);
 __exportStar(require("./certificate.model.js"), exports);
 __exportStar(require("./auditLog.model.js"), exports);
+__exportStar(require("./galleryPhoto.model.js"), exports);
 //# sourceMappingURL=index.js.map
