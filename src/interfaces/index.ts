@@ -7,3 +7,4 @@ export * from './biometric.interface.js';
 export * from './attendance.interface.js';
 export * from './certificate.interface.js';
 export * from './audit.interface.js';
+export * from './gallery.interface.js';

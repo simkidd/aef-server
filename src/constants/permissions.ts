@@ -59,6 +59,7 @@ export const PERMISSIONS = {
   AUDIT_VIEW: 'audit:view',
   SETTINGS_MANAGE: 'settings:manage',
   ANNOUNCEMENTS_MANAGE: 'announcements:manage',
+  GALLERY_MANAGE: 'gallery:manage',
 } as const;
 
 export type PermissionCode = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];

@@ -13,6 +13,7 @@ import { certificateRoutes } from './certificate.routes.js';
 import { announcementRoutes } from './announcement.routes.js';
 import { reportRoutes } from './report.routes.js';
 import { adminRoutes } from './admin.routes.js';
+import { galleryRoutes } from './gallery.routes.js';
 
 const apiRouter = Router();
 
@@ -30,5 +31,6 @@ apiRouter.use('/certificates', certificateRoutes);
 apiRouter.use('/announcements', announcementRoutes);
 apiRouter.use('/reports', reportRoutes);
 apiRouter.use('/admin', adminRoutes);
+apiRouter.use('/gallery', galleryRoutes);
 
 export { apiRouter };

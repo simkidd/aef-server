@@ -13,3 +13,4 @@ export * from './biometric.model.js';
 export * from './attendance.model.js';
 export * from './certificate.model.js';
 export * from './auditLog.model.js';
+export * from './galleryPhoto.model.js';
