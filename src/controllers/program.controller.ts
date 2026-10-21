@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { Program, SkillArea } from '../models/program.model.js';
 import { Cohort } from '../models/cohort.model.js';
 import { Application } from '../models/application.model.js';
@@ -115,7 +116,20 @@ export class ProgramController {
 
   public static getPublishedProgramById = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const program = await Program.findOne({ _id: id, published: true })
+
+    // Strict input validation to prevent NoSQL operator tampering or path traversal
+    if (!id || typeof id !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(id)) {
+      throw new AppError('Invalid program identifier', 400);
+    }
+
+    const query: any = mongoose.Types.ObjectId.isValid(id)
+      ? { _id: id, published: true }
+      : {
+          $or: [{ slug: id.toLowerCase() }, { code: id.toUpperCase() }],
+          published: true,
+        };
+
+    const program = await Program.findOne(query)
       .populate('skillAreaIds')
       .populate('partnerIds', 'name code type');
 
@@ -124,7 +138,7 @@ export class ProgramController {
     }
 
     const cohorts = await Cohort.find({
-      programId: id,
+      programId: program._id,
       status: { $in: ['upcoming', 'enrolling', 'in_progress'] },
     })
       .populate('centreId', 'name centreCode state lga capacity address')

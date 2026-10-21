@@ -57,6 +57,14 @@ export const SkillArea = mongoose.model<ISkillAreaDocument>(
 const ProgramSchema = new Schema<IProgramDocument>(
   {
     title: { type: String, required: true, trim: true },
+    slug: {
+      type: String,
+      unique: true,
+      sparse: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
     code: {
       type: String,
       required: true,

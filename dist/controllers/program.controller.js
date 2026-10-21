@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProgramController = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const program_model_js_1 = require("../models/program.model.js");
 const cohort_model_js_1 = require("../models/cohort.model.js");
 const application_model_js_1 = require("../models/application.model.js");
@@ -96,14 +100,24 @@ class ProgramController {
     });
     static getPublishedProgramById = (0, index_js_1.asyncHandler)(async (req, res) => {
         const { id } = req.params;
-        const program = await program_model_js_1.Program.findOne({ _id: id, published: true })
+        // Strict input validation to prevent NoSQL operator tampering or path traversal
+        if (!id || typeof id !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(id)) {
+            throw new index_js_1.AppError('Invalid program identifier', 400);
+        }
+        const query = mongoose_1.default.Types.ObjectId.isValid(id)
+            ? { _id: id, published: true }
+            : {
+                $or: [{ slug: id.toLowerCase() }, { code: id.toUpperCase() }],
+                published: true,
+            };
+        const program = await program_model_js_1.Program.findOne(query)
             .populate('skillAreaIds')
             .populate('partnerIds', 'name code type');
         if (!program) {
             throw new index_js_1.AppError('Program not found or not published', 404);
         }
         const cohorts = await cohort_model_js_1.Cohort.find({
-            programId: id,
+            programId: program._id,
             status: { $in: ['upcoming', 'enrolling', 'in_progress'] },
         })
             .populate('centreId', 'name centreCode state lga capacity address')

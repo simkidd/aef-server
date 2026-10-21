@@ -27,6 +27,7 @@ export interface ISkillArea {
 export interface IProgram {
   _id: any;
   title: string;
+  slug?: string;
   code: string;
   description: string;
   organizerType:

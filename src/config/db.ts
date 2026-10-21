@@ -13,6 +13,8 @@ export const connectDB = async (): Promise<typeof mongoose> => {
   try {
     const conn = await mongoose.connect(ENV.MONGO_URI, {
       dbName: ENV.DB_NAME,
+      serverSelectionTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
     });
     console.log(
       `[Database] MongoDB Connected [${ENV.NODE_ENV}]: ${conn.connection.host}/${conn.connection.name}`,

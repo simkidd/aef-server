@@ -79,6 +79,14 @@ const SkillAreaSchema = new mongoose_1.Schema({
 exports.SkillArea = mongoose_1.default.model("SkillArea", SkillAreaSchema);
 const ProgramSchema = new mongoose_1.Schema({
     title: { type: String, required: true, trim: true },
+    slug: {
+        type: String,
+        unique: true,
+        sparse: true,
+        lowercase: true,
+        trim: true,
+        index: true,
+    },
     code: {
         type: String,
         required: true,

@@ -604,17 +604,51 @@ export async function seedDatabase() {
     requiredFacilities: ["Computer Lab"],
   });
 
-  // 11. Programs
-  const progTVET = await Program.create({
-    title: "National TVET Solar PV & Clean Energy Initiative 2026",
-    code: "PROG-TVET-SOLAR-2026",
+  const skillAgri = await SkillArea.create({
+    name: "Modern Agribusiness & Hydroponics",
+    code: "AGRI-HYD",
+    category: "Agriculture",
     description:
-      "Federal-sponsored clean energy technical certification delivered across Adele accredited training centres.",
+      "Precision soilless hydroponics, greenhouse cultivation, poultry nutrition, value-addition packaging, and cold-chain distribution.",
+    defaultDurationWeeks: 20,
+    certificationType: "AEF Certificate of Competency",
+    requiredFacilities: ["Greenhouse Yard"],
+  });
+
+  const skillFashion = await SkillArea.create({
+    name: "Fashion & Garment Technology",
+    code: "FASH-ENG",
+    category: "Technical / Vocational",
+    description:
+      "Industrial pattern engineering, bespoke haute couture tailoring, mass apparel finishing, quality assurance, and commercial studio startup.",
+    defaultDurationWeeks: 24,
+    certificationType: "National Certification",
+    requiredFacilities: ["Textile Workshop"],
+  });
+
+  const skillCulinary = await SkillArea.create({
+    name: "Culinary Arts & Hospitality Operations",
+    code: "CUL-HOSP",
+    category: "Other",
+    description:
+      "Continental cuisine gastronomy, commercial pastry production, food safety HACCP protocols, and restaurant hospitality operations.",
+    defaultDurationWeeks: 16,
+    certificationType: "AEF Certificate of Competency",
+    requiredFacilities: ["Commercial Kitchen"],
+  });
+
+  // 11. Programs (The Initiatives & Umbrella Schemes)
+  const progTVET = await Program.create({
+    title: "National TVET Technical Skills Program",
+    code: "TVET-TECH-2026",
+    slug: "national-tvet",
+    description:
+      "Accredited national technical vocational education and training initiative delivering certified renewable solar energy and industrial technical trade qualifications in partnership with the Federal Ministry of Labour and NBTE.",
     organizerType: "Government Owned",
     organizerName: "Federal Ministry of Labour / NBTE",
     partnerIds: [partnerFed._id, partnerSolar._id],
     deliveryRole: "Accredited Training Centre",
-    status: "Active",
+    status: "active",
     skillAreaIds: [skillSolar._id, skillWeld._id],
     eligibilityCriteria: [
       "Age 18-35",
@@ -622,40 +656,86 @@ export async function seedDatabase() {
       "Physically fit for hands-on workshop training",
     ],
     requirements: [
-      "Valid Government ID",
+      "Valid Government ID / NIN",
       "2 Passport Photographs",
       "Personal safety boots",
     ],
-    maxSlots: 80,
+    maxSlots: 100,
     applicationStartDate: new Date("2026-08-01"),
     applicationDeadline: new Date("2026-09-30"),
     trainingStartDate: new Date("2026-10-05"),
     trainingEndDate: new Date("2026-12-05"),
+    imageUrl: "/images/auth-hero-solar.jpg",
+    bannerUrl: "/images/auth-hero-solar.jpg",
+    published: true,
+    isFeatured: true,
+  });
+
+  const progAEF = await Program.create({
+    title: "Adele Foundation Flagship Vocational Program",
+    code: "AEF-FLAGSHIP-2026",
+    slug: "adele-flagship",
+    description:
+      "The premier multi-track vocational training initiative funded and hosted by Adele Empowerment Foundation, equipping youth and women with intensive trade masterclasses, startup mentoring, and starter toolkits.",
+    organizerType: "Adele Owned",
+    organizerName: "Adele Empowerment Foundation",
+    deliveryRole: "Primary Host",
+    status: "active",
+    skillAreaIds: [
+      skillWeb._id,
+      skillFashion._id,
+      skillCulinary._id,
+      skillAgri._id,
+      skillUIUX._id,
+    ],
+    eligibilityCriteria: [
+      "Age 18-35",
+      "Passion for vocational craftsmanship and enterprise startup",
+      "Commitment to full attendance throughout training duration",
+    ],
+    requirements: [
+      "Valid Government ID / NIN",
+      "2 Passport Photographs",
+    ],
+    maxSlots: 150,
+    applicationStartDate: new Date("2026-08-01"),
+    applicationDeadline: new Date("2026-09-30"),
+    trainingStartDate: new Date("2026-10-01"),
+    trainingEndDate: new Date("2027-03-31"),
+    imageUrl: "/images/auth-hero-makeup.jpg",
+    bannerUrl: "/images/auth-hero-makeup.jpg",
     published: true,
     isFeatured: true,
   });
 
   const progDigital = await Program.create({
-    title: "Adele Youth Digital Empowerment Accelerator (YDEA)",
-    code: "PROG-YDEA-2026",
+    title: "Digital & Creative Youth Initiative",
+    code: "TECH4DEV-YOUTH-2026",
+    slug: "digital-creative-initiative",
     description:
-      "Adele Foundation proprietary intensive digital bootcamps for software engineers, product designers, and data analysts.",
-    organizerType: "Adele Owned",
-    organizerName: "Adele Empowerment Foundation",
+      "High-impact tech and creative digital accelerator in partnership with Tech4Dev, equipping young innovators with software engineering, UI/UX design, and AI automation skills.",
+    organizerType: "NGO Partner",
+    organizerName: "Tech4Dev Initiative",
     partnerIds: [partnerTech._id],
-    deliveryRole: "Primary Host",
-    status: "Active",
+    deliveryRole: "Consortium Partner",
+    status: "active",
     skillAreaIds: [skillWeb._id, skillUIUX._id, skillData._id],
     eligibilityCriteria: [
       "Passion for technology and problem solving",
       "Basic computer literacy",
       "Commitment to full-time training",
     ],
+    requirements: [
+      "Valid Government ID / NIN",
+      "2 Passport Photographs",
+    ],
     maxSlots: 90,
     applicationStartDate: new Date("2026-08-01"),
     applicationDeadline: new Date("2026-09-25"),
     trainingStartDate: new Date("2026-10-01"),
     trainingEndDate: new Date("2026-12-20"),
+    imageUrl: "/images/auth-hero-network.jpg",
+    bannerUrl: "/images/auth-hero-network.jpg",
     published: true,
     isFeatured: true,
   });
@@ -726,6 +806,41 @@ export async function seedDatabase() {
         startTime: "14:00",
         endTime: "17:00",
         durationWeeks: 8,
+        maxCapacity: 20,
+      },
+    ],
+  });
+
+  const cohortYenagoa = await Cohort.create({
+    name: "Yenagoa Technical & Enterprise Cohort 01",
+    cohortCode: "YEN-COH-2026-01",
+    programId: progAEF._id,
+    centreId: centre2._id,
+    startDate: new Date("2026-09-01"),
+    endDate: new Date("2026-12-15"),
+    status: "in_progress",
+    maxCapacity: 45,
+    skillConfigs: [
+      {
+        skillAreaId: skillAgri._id,
+        skillName: "Modern Agribusiness & Hydroponics",
+        trainerStaffIds: [staffTrainerSolar._id],
+        assignedRoomId: roomSolarYen._id,
+        daysOfWeek: [1, 3, 5],
+        startTime: "09:00",
+        endTime: "13:00",
+        durationWeeks: 12,
+        maxCapacity: 25,
+      },
+      {
+        skillAreaId: skillFashion._id,
+        skillName: "Fashion & Garment Technology",
+        trainerStaffIds: [staffTrainerSolar._id],
+        assignedRoomId: roomWeld._id,
+        daysOfWeek: [2, 4],
+        startTime: "10:00",
+        endTime: "14:00",
+        durationWeeks: 12,
         maxCapacity: 20,
       },
     ],
